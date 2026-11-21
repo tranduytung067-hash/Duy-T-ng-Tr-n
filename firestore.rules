@@ -1,0 +1,54 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /user_permissions/{email} {
+      allow read, write: if true;
+    }
+    match /leave_requests/{requestId} {
+      allow read, write: if true;
+    }
+    match /sales_notes/{employeeName} {
+      allow read, write: if true;
+    }
+    match /app_settings/{settingId} {
+      allow read, write: if true;
+    }
+    match /market_evaluations/{evaluationId} {
+      allow read, write: if true;
+    }
+    match /attendance_history/{historyId} {
+      allow read, write: if true;
+    }
+    match /competition_programs/{programId} {
+      allow read, write: if true;
+    }
+    match /competition_program_logs/{logId} {
+      allow read, write: if true;
+    }
+    function isValidSurveyId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+    function isValidCustomerSurvey(data) {
+      return data.keys().hasAll(['id', 'customerCode', 'customerName', 'surveyor', 'giftStatus', 'combinedOpinion', 'sheetSynced', 'submittedAt']) &&
+        data.keys().hasOnly(['id', 'customerCode', 'customerName', 'customerEmployee', 'surveyor', 'giftStatus', 'giftName', 'giftQty', 'customerFeedback', 'combinedOpinion', 'imageUrl', 'sheetSynced', 'submittedAt']) &&
+        isValidSurveyId(data.id) &&
+        data.customerCode is string && data.customerCode.size() <= 80 &&
+        data.customerName is string && data.customerName.size() >= 1 && data.customerName.size() <= 240 &&
+        data.surveyor is string && data.surveyor.size() >= 1 && data.surveyor.size() <= 120 &&
+        data.giftStatus is string && data.giftStatus.size() >= 1 && data.giftStatus.size() <= 80 &&
+        data.combinedOpinion is string && data.combinedOpinion.size() <= 2000 &&
+        data.sheetSynced is bool &&
+        data.submittedAt is string && data.submittedAt.size() <= 64 &&
+        (!('customerEmployee' in data) || (data.customerEmployee is string && data.customerEmployee.size() <= 120)) &&
+        (!('giftName' in data) || (data.giftName is string && data.giftName.size() <= 200)) &&
+        (!('giftQty' in data) || (data.giftQty is int && data.giftQty >= 0 && data.giftQty <= 9999)) &&
+        (!('customerFeedback' in data) || (data.customerFeedback is string && data.customerFeedback.size() <= 1500)) &&
+        (!('imageUrl' in data) || (data.imageUrl is string && data.imageUrl.size() <= 600));
+    }
+    match /customer_surveys/{surveyId} {
+      allow get, list: if true;
+      allow create, update: if isValidSurveyId(surveyId) && isValidCustomerSurvey(request.resource.data) && request.resource.data.id == surveyId;
+      allow delete: if isValidSurveyId(surveyId);
+    }
+  }
+}

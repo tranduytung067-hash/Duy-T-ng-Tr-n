@@ -1,0 +1,6 @@
+{
+  "name": "Sale Update",
+  "description": "Sale Update - Ứng dụng quản lý số bán, tiến độ bán hàng & điều hành phân phối",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="vi" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+    <title>Sale Update</title>
+    <meta name="description" content="Sale Update - Ứng dụng quản lý số bán, tiến độ bán hàng & điều hành phân phối" />
+    <meta property="og:title" content="Sale Update" />
+    <meta property="og:description" content="Sale Update - Ứng dụng quản lý số bán, tiến độ bán hàng & điều hành phân phối" />
+    
+    <!-- PWA Primary Manifest & Identity -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#064e48" />
+    <meta name="background-color" content="#022c28" />
+    <meta name="application-name" content="Sale Update" />
+
+    <!-- Uniform Typography: System Arial across the entire application -->
+
+    <!-- Android & Chrome Standalone & Fullscreen Meta -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-status-bar-style" content="#064e48" />
+
+    <!-- iOS Safari Native PWA Meta -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Sale Update" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+
+    <!-- Early UI Zoom Restoration for Mobile/Desktop -->
+    <script>
+      (function() {
+        try {
+          var savedZoom = localStorage.getItem('app_ui_zoom_level');
+          if (savedZoom) {
+            var z = parseFloat(savedZoom);
+            if (!isNaN(z) && z >= 0.75 && z <= 1.30) {
+              document.documentElement.style.zoom = String(z);
+              document.documentElement.style.setProperty('--app-zoom', String(z));
+            }
+          }
+
+          // Early Desktop Fullscreen Layout Initialization (khi cài đặt trên máy tính hoặc chạy desktop)
+          var savedFs = localStorage.getItem('app_fullscreen_layout');
+          if (savedFs === null) {
+            var isStandalone = window.matchMedia && (
+              window.matchMedia('(display-mode: standalone)').matches ||
+              window.matchMedia('(display-mode: window-controls-overlay)').matches
+            );
+            var isDesktop = window.innerWidth >= 1024 || !(/android|iphone|ipad|ipod/i.test(navigator.userAgent));
+            if (isStandalone || isDesktop) {
+              localStorage.setItem('app_fullscreen_layout', 'true');
+            }
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="h-full antialiased overflow-x-hidden touch-manipulation">
+    <div id="root" class="min-h-full"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
