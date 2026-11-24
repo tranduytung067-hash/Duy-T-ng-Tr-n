@@ -2005,8 +2005,8 @@ export default function AttendanceSystem({
             {/* Row 1: Title + Cycle Selector on same row */}
             <div className="flex items-center justify-between gap-2 flex-wrap sm:flex-nowrap">
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-200 shrink-0">
-                  <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-200 shrink-0">
+                  <Calendar className="w-5 h-5" />
                 </div>
                 <div className="min-w-0">
                   <h4 className="text-xs sm:text-sm font-black text-emerald-900 uppercase tracking-wider truncate">
@@ -2020,11 +2020,11 @@ export default function AttendanceSystem({
 
               {/* Cycle Dropdown Selector */}
               <div className="flex items-center gap-1.5 sm:border-l border-slate-200 sm:pl-4 shrink-0">
-                <span className="hidden sm:inline text-[11px] font-bold uppercase text-slate-500 shrink-0">Chu Kỳ:</span>
+                <span className="hidden sm:inline text-[11px] font-bold text-slate-500 shrink-0 whitespace-nowrap">Chu Kỳ Hiện Tại:</span>
                 <select
                   value={currentSelectedCycle}
                   onChange={(e) => currentSetSelectedCycle(e.target.value)}
-                  className="h-9 bg-white border border-slate-300 rounded-xl px-2.5 py-1 text-xs text-slate-800 font-extrabold tracking-wide outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
+                  className="h-10 bg-white border border-slate-300 rounded-xl px-2.5 py-1 text-xs text-slate-800 font-extrabold tracking-wide outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
                 >
                   {cycleOptions.map(opt => (
                     <option key={opt.value} value={opt.value}>
@@ -2040,13 +2040,13 @@ export default function AttendanceSystem({
               <div className="flex items-center gap-2 min-w-0">
                 {historyList.some(item => item.cycleId === currentSelectedCycle) ? (
                   <div 
-                    className="text-[11px] sm:text-xs text-emerald-700 font-bold truncate" 
+                    className="h-10 min-w-0 max-w-[38vw] sm:max-w-none px-2.5 sm:px-3 bg-emerald-50/70 border border-emerald-200 rounded-xl inline-flex items-center text-[11px] sm:text-xs text-emerald-700 font-bold truncate whitespace-nowrap" 
                     title={`Được lưu bởi ${historyList.find(item => item.cycleId === currentSelectedCycle)?.savedBy || ''} lúc ${historyList.find(item => item.cycleId === currentSelectedCycle)?.savedAt || ''}`}
                   >
                     Lịch sử: Đã sao lưu ✓
                   </div>
                 ) : (
-                  <div className="text-[11px] sm:text-xs text-slate-500 font-semibold truncate">
+                  <div className="h-10 min-w-0 max-w-[38vw] sm:max-w-none px-2.5 sm:px-3 bg-slate-50 border border-slate-200 rounded-xl inline-flex items-center text-[11px] sm:text-xs text-slate-600 font-semibold truncate whitespace-nowrap">
                     Lịch sử: Chưa lưu
                   </div>
                 )}
@@ -2055,7 +2055,7 @@ export default function AttendanceSystem({
                   <button
                     onClick={handleSaveCurrentCycleToHistory}
                     disabled={isSavingHistory}
-                    className="h-8 px-2.5 bg-emerald-50 hover:bg-emerald-100 disabled:bg-slate-100 text-emerald-700 hover:text-emerald-800 border border-emerald-300 rounded-xl text-[11px] font-extrabold transition-all flex items-center gap-1 cursor-pointer active:scale-95 shrink-0 whitespace-nowrap"
+                    className="h-10 px-3 bg-emerald-50 hover:bg-emerald-100 disabled:bg-slate-100 text-emerald-700 hover:text-emerald-800 border border-emerald-300 rounded-xl text-[11px] font-extrabold transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 shrink-0 whitespace-nowrap"
                     title="Chụp ảnh dữ liệu bảng tính hiện tại và lưu vào Cơ sở dữ liệu lịch sử"
                   >
                     {isSavingHistory ? (
@@ -2083,6 +2083,8 @@ export default function AttendanceSystem({
                     availableEmployees={sortAndFormatEmployeeNames(activeEmployees.map(e => e.name))}
                     isEmployeeView={isEmployeeView}
                     showAllOption={false}
+                    compact={true}
+                    buttonHeightClass="h-10 min-h-0"
                   />
                 </div>
               )}
@@ -2090,7 +2092,7 @@ export default function AttendanceSystem({
               {isEmployeeView && (
                 <button
                   onClick={() => setIsOpenLeaveForm(true)}
-                  className="h-9 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 shrink-0 whitespace-nowrap"
+                  className="h-10 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 shrink-0 whitespace-nowrap"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>TẠO LỊCH NGHỈ</span>
