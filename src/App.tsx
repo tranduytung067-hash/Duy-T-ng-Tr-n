@@ -2100,35 +2100,20 @@ export default function App() {
 
             {activeTab === 'doanhso' && (
               <div key="tab-doanhso" className="space-y-4">
-                {/* Sub-module Switcher Bar for Phân Hệ Số Bán (44px touch targets, hairline tabs) */}
-                <div className="bg-white border border-slate-200 rounded-xl px-2 flex items-center gap-1 overflow-x-auto scrollbar-none">
-                  <div className="flex items-center gap-1 flex-nowrap w-full sm:w-auto">
-                    {isSupervisor && (
-                      <button
-                        type="button"
-                        onClick={() => setSalesSubTab('tangtruong')}
-                        className={`min-h-[44px] px-3.5 py-2 text-xs sm:text-sm font-semibold border-b-2 transition-colors flex items-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap shrink-0 ${
-                          salesSubTab === 'tangtruong'
-                            ? 'border-emerald-600 text-emerald-800 bg-emerald-50/40 font-bold'
-                            : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                        }`}
-                      >
-                        <TrendingUp className="w-4 h-4 shrink-0" />
-                        <span>Tăng trưởng năm</span>
-                      </button>
-                    )}
-
+                {/* Sales submodule switcher: desktop only; mobile uses the bottom sheet. */}
+                <div className="hidden md:block bg-white border border-slate-200 rounded-xl px-2">
+                  <div className="flex items-center gap-1">
                     <button
                       type="button"
-                      onClick={() => setSalesSubTab('thuongnam')}
+                      onClick={() => setSalesSubTab('tiendo')}
                       className={`min-h-[44px] px-3.5 py-2 text-xs sm:text-sm font-semibold border-b-2 transition-colors flex items-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap shrink-0 ${
-                        salesSubTab === 'thuongnam'
+                        salesSubTab === 'tiendo'
                           ? 'border-emerald-600 text-emerald-800 bg-emerald-50/40 font-bold'
                           : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                       }`}
                     >
-                      <Trophy className="w-4 h-4 shrink-0" />
-                      <span>Tiến độ thưởng năm</span>
+                      <Package className="w-4 h-4 shrink-0" />
+                      <span>Tiến Độ Số Bán</span>
                     </button>
 
                     <button
@@ -2141,21 +2126,36 @@ export default function App() {
                       }`}
                     >
                       <BarChart3 className="w-4 h-4 shrink-0" />
-                      <span>Tiến độ doanh số</span>
+                      <span>Tiến Độ Doanh Số</span>
                     </button>
 
                     <button
                       type="button"
-                      onClick={() => setSalesSubTab('tiendo')}
+                      onClick={() => setSalesSubTab('thuongnam')}
                       className={`min-h-[44px] px-3.5 py-2 text-xs sm:text-sm font-semibold border-b-2 transition-colors flex items-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap shrink-0 ${
-                        salesSubTab === 'tiendo'
+                        salesSubTab === 'thuongnam'
                           ? 'border-emerald-600 text-emerald-800 bg-emerald-50/40 font-bold'
                           : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                       }`}
                     >
-                      <Package className="w-4 h-4 shrink-0" />
-                      <span>Tiến độ số bán</span>
+                      <Trophy className="w-4 h-4 shrink-0" />
+                      <span>Tiến Độ Thưởng Năm</span>
                     </button>
+
+                    {isSupervisor && (
+                      <button
+                        type="button"
+                        onClick={() => setSalesSubTab('tangtruong')}
+                        className={`min-h-[44px] px-3.5 py-2 text-xs sm:text-sm font-semibold border-b-2 transition-colors flex items-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap shrink-0 ${
+                          salesSubTab === 'tangtruong'
+                            ? 'border-emerald-600 text-emerald-800 bg-emerald-50/40 font-bold'
+                            : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                        }`}
+                      >
+                        <TrendingUp className="w-4 h-4 shrink-0" />
+                        <span>Tăng Trưởng Năm</span>
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -3577,10 +3577,10 @@ export default function App() {
 
               <div className="p-4 space-y-2">
                 {[
-                  { id: 'tangtruong', label: 'Tăng trưởng năm', desc: 'So sánh cùng kỳ năm trước (Giám sát)', icon: TrendingUp, show: isSupervisor },
-                  { id: 'thuongnam', label: 'Tiến độ thưởng năm', desc: 'KPI & bậc thưởng năm tích lũy', icon: Trophy, show: true },
-                  { id: 'doanhso', label: 'Tiến độ doanh số', desc: 'Bảng chi tiết doanh số nhân viên', icon: BarChart3, show: true },
-                  { id: 'tiendo', label: 'Tiến độ số bán', desc: 'Sản lượng & tiến độ bán ngành hàng', icon: Package, show: true },
+                  { id: 'tiendo', label: 'Tiến Độ Số Bán', desc: 'Sản lượng & tiến độ bán ngành hàng', icon: Package, show: true },
+                  { id: 'doanhso', label: 'Tiến Độ Doanh Số', desc: 'Bảng chi tiết doanh số nhân viên', icon: BarChart3, show: true },
+                  { id: 'thuongnam', label: 'Tiến Độ Thưởng Năm', desc: 'KPI & bậc thưởng năm tích lũy', icon: Trophy, show: true },
+                  { id: 'tangtruong', label: 'Tăng Trưởng Năm', desc: 'So sánh cùng kỳ năm trước (Giám sát)', icon: TrendingUp, show: isSupervisor },
                 ].filter(item => item.show).map((item) => {
                   const isActive = activeTab === 'doanhso' && salesSubTab === item.id;
                   const IconComp = item.icon;
