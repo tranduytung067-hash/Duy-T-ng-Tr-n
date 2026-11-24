@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 
 export const APP_ZOOM_STORAGE_KEY = 'app_ui_zoom_level';
-export const DEFAULT_ZOOM = 1.0;
+export const DEFAULT_ZOOM = 1.05;
 export const MIN_ZOOM = 0.75;
 export const MAX_ZOOM = 1.30;
 export const ZOOM_STEP = 0.05;
@@ -13,7 +13,7 @@ export const ZOOM_STEP = 0.05;
 export const ZOOM_PRESETS = [
   { value: 0.85, label: '85%', desc: 'Thu nhỏ', tag: 'Màn hình nhỏ' },
   { value: 0.90, label: '90%', desc: 'Gọn nhẹ', tag: 'Vừa vặn' },
-  { value: 1.00, label: '100%', desc: 'Chuẩn', tag: 'Mặc định' },
+  { value: 1.05, label: '105%', desc: 'Rõ hơn', tag: 'Mặc định' },
   { value: 1.10, label: '110%', desc: 'Phóng to', tag: 'Dễ nhìn' },
   { value: 1.20, label: '120%', desc: 'Cực lớn', tag: 'Chữ to' },
 ];
@@ -24,7 +24,9 @@ export const getStoredZoomLevel = (): number => {
     if (saved) {
       const parsed = parseFloat(saved);
       if (!isNaN(parsed) && parsed >= MIN_ZOOM && parsed <= MAX_ZOOM) {
-        return Math.round(parsed * 100) / 100;
+        const normalized = Math.round(parsed * 100) / 100;
+        // Move existing users from the previous 100% default to the new 105% default.
+        return normalized === 1.00 ? DEFAULT_ZOOM : normalized;
       }
     }
   } catch (e) {
@@ -98,7 +100,8 @@ export const AppZoomControl: React.FC<AppZoomControlProps> = ({
   const getZoomDescription = () => {
     if (zoomLevel <= 0.85) return 'Thu nhỏ nhiều - Hiển thị nhiều nội dung hơn trên màn hình';
     if (zoomLevel < 1.00) return 'Thu nhỏ vừa - Không gian thoáng, bố cục vừa vặn';
-    if (zoomLevel === 1.00) return 'Tỷ lệ tiêu chuẩn 100% của hệ thống';
+    if (zoomLevel < DEFAULT_ZOOM) return 'Thu phóng nhẹ - gần với tỷ lệ mặc định 105%';
+    if (zoomLevel === DEFAULT_ZOOM) return 'Tỷ lệ mặc định 105% của hệ thống';
     if (zoomLevel <= 1.15) return 'Phóng to nhẹ - Chữ và số to rõ, dễ đọc hơn';
     return 'Phóng to tối đa - Tối ưu cho người thích cỡ chữ lớn';
   };
@@ -121,16 +124,16 @@ export const AppZoomControl: React.FC<AppZoomControlProps> = ({
           </div>
         </div>
 
-        {/* Reset button if not 100% */}
+        {/* Reset button when not at the 105% default */}
         {zoomLevel !== DEFAULT_ZOOM && (
           <button
             type="button"
             onClick={handleReset}
             className="flex items-center gap-1 px-2 py-1 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-emerald-700 hover:border-emerald-300 text-[11px] font-bold shadow-2xs transition-all cursor-pointer active:scale-95"
-            title="Đặt lại về mặc định 100%"
+            title="Đặt lại về mặc định 105%"
           >
             <RotateCcw className="w-3 h-3 text-emerald-600" />
-            <span>100%</span>
+            <span>105%</span>
           </button>
         )}
       </div>
